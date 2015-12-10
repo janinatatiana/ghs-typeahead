@@ -2,10 +2,11 @@
  * ghs-typeahead
  * http://angular-ui.github.io/bootstrap/
 
- * Version: 0.14.14 - 2015-10-28
+ * Version: 0.14.15 - 2015-12-10
  * License: MIT
  */
-angular.module("ghs.bootstrap", ["ghs.bootstrap.typeahead"]);
+angular.module("ghs.bootstrap", ["ghs.bootstrap.tpls", "ghs.bootstrap.typeahead"]);
+angular.module("ghs.bootstrap.tpls", ["template/typeahead/typeahead-match.html","template/typeahead/typeahead-popup.html"]);
 angular.module('ghs.bootstrap.typeahead', ['ui.bootstrap.position'])
 
 /**
@@ -59,10 +60,10 @@ angular.module('ghs.bootstrap.typeahead', ['ui.bootstrap.position'])
 
           //binding to a variable that indicates if matches are being retrieved asynchronously
           var isLoadingSetter = $parse(attrs.typeaheadLoading).assign || angular.noop;
-      
+
           //override default popup template
           var parentTemplate = originalScope.$eval(attrs.typeaheadParentTemplate) || '';
-      
+
           //a callback executed when a match is selected
           var onSelectCallback = $parse(attrs.typeaheadOnSelect);
 
@@ -71,16 +72,16 @@ angular.module('ghs.bootstrap.typeahead', ['ui.bootstrap.position'])
           var appendToBody = attrs.typeaheadAppendToBody ? originalScope.$eval(attrs.typeaheadAppendToBody) : false;
 
           //INTERNAL VARIABLES
-    
+
           //model setter executed upon match selection
           var $setModelValue = $parse(attrs.ngModel).assign;
-    
+
           //expressions used by typeahead
           var parserResult = ghsTypeaheadParser.parse(attrs.ghsTypeahead);
-    
+
           //private var to disable popup showing
           var enablePopup = true;
-    
+
           //private var to disable select right after matchSync is performed
           var enableSelect = true;
 
@@ -111,7 +112,6 @@ angular.module('ghs.bootstrap.typeahead', ['ui.bootstrap.position'])
             if (enablePopup && !scope.popupState.visible) {
               scope.popupState.visible = true;
               getMatchesAsync(modelCtrl.$viewValue);
-              scope.$digest();
             }
           };
 
@@ -506,3 +506,19 @@ angular.module('ghs.bootstrap.typeahead', ['ui.bootstrap.position'])
       return matchItem;
     };
   }]);
+
+angular.module("template/typeahead/typeahead-match.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("template/typeahead/typeahead-match.html",
+    "<a tabindex=\"-1\" ng-bind-html=\"match.label | ghsTypeaheadHighlight:query\"></a>\n" +
+    "");
+}]);
+
+angular.module("template/typeahead/typeahead-popup.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("template/typeahead/typeahead-popup.html",
+    "<ul class=\"dropdown-menu\" ng-show=\"isOpen()\" ng-style=\"{top: position.top+'px', left: position.left+'px', width: '100%'}\" style=\"display: block;\" role=\"listbox\" aria-hidden=\"{{!isOpen()}}\">\n" +
+    "    <li ng-repeat=\"match in matches track by $index\" ng-class=\"{active: isActive($index) }\" ng-mouseenter=\"selectActive($index)\" ng-click=\"selectMatch($index)\" role=\"option\" id=\"{{match.id}}\">\n" +
+    "        <div ghs-typeahead-match index=\"$index\" match=\"match\" query=\"query\" template-url=\"templateUrl\"></div>\n" +
+    "    </li>\n" +
+    "</ul>\n" +
+    "");
+}]);

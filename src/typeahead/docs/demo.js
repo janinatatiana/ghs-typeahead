@@ -45,7 +45,7 @@ angular.module('ui.bootstrap.demo').controller('TypeaheadCtrl', function($scope,
         $scope.ngTypeaheadReload($scope.ghsModel);
       }
     });
-    if ($scope.ghsModel && $scope.ghsModel.length > 2) {
+    if ($scope.ghsModel && $scope.ghsModel.length > 1) {
       return googleApiCall($scope.ghsModel)
         .then(function (addresses) {
           return addressList.concat(addresses);

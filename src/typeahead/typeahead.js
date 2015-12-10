@@ -51,10 +51,10 @@ angular.module('ghs.bootstrap.typeahead', ['ui.bootstrap.position'])
 
           //binding to a variable that indicates if matches are being retrieved asynchronously
           var isLoadingSetter = $parse(attrs.typeaheadLoading).assign || angular.noop;
-      
+
           //override default popup template
           var parentTemplate = originalScope.$eval(attrs.typeaheadParentTemplate) || '';
-      
+
           //a callback executed when a match is selected
           var onSelectCallback = $parse(attrs.typeaheadOnSelect);
 
@@ -63,16 +63,16 @@ angular.module('ghs.bootstrap.typeahead', ['ui.bootstrap.position'])
           var appendToBody = attrs.typeaheadAppendToBody ? originalScope.$eval(attrs.typeaheadAppendToBody) : false;
 
           //INTERNAL VARIABLES
-    
+
           //model setter executed upon match selection
           var $setModelValue = $parse(attrs.ngModel).assign;
-    
+
           //expressions used by typeahead
           var parserResult = ghsTypeaheadParser.parse(attrs.ghsTypeahead);
-    
+
           //private var to disable popup showing
           var enablePopup = true;
-    
+
           //private var to disable select right after matchSync is performed
           var enableSelect = true;
 
@@ -103,7 +103,6 @@ angular.module('ghs.bootstrap.typeahead', ['ui.bootstrap.position'])
             if (enablePopup && !scope.popupState.visible) {
               scope.popupState.visible = true;
               getMatchesAsync(modelCtrl.$viewValue);
-              scope.$digest();
             }
           };
 
