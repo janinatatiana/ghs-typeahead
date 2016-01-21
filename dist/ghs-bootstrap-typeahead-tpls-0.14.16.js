@@ -2,7 +2,7 @@
  * ghs-typeahead
  * http://angular-ui.github.io/bootstrap/
 
- * Version: 0.14.15 - 2015-12-10
+ * Version: 0.14.16 - 2016-01-21
  * License: MIT
  */
 angular.module("ghs.bootstrap", ["ghs.bootstrap.tpls", "ghs.bootstrap.typeahead"]);
@@ -408,10 +408,10 @@ angular.module('ghs.bootstrap.typeahead', ['ui.bootstrap.position'])
             }
           };
 
-          $document.bind('click', dismissClickHandler);
+          $document.bind('click touchstart', dismissClickHandler);
 
           originalScope.$on('$destroy', function () {
-            $document.unbind('click', dismissClickHandler);
+            $document.unbind('click touchstart', dismissClickHandler);
           });
 
           var $popup = $compile(popUpEl)(scope);

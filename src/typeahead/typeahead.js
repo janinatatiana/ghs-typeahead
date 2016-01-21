@@ -399,10 +399,10 @@ angular.module('ghs.bootstrap.typeahead', ['ui.bootstrap.position'])
             }
           };
 
-          $document.bind('click', dismissClickHandler);
+          $document.bind('click touchstart', dismissClickHandler);
 
           originalScope.$on('$destroy', function () {
-            $document.unbind('click', dismissClickHandler);
+            $document.unbind('click touchstart', dismissClickHandler);
           });
 
           var $popup = $compile(popUpEl)(scope);
