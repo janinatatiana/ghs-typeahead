@@ -2,7 +2,7 @@
  * ghs-typeahead
  * http://angular-ui.github.io/bootstrap/
 
- * Version: 0.14.16 - 2016-01-21
+ * Version: 0.14.17 - 2016-02-05
  * License: MIT
  */
 angular.module("ghs.bootstrap", ["ghs.bootstrap.tpls", "ghs.bootstrap.typeahead"]);
