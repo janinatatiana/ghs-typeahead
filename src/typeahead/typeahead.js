@@ -76,6 +76,9 @@ angular.module('ghs.bootstrap.typeahead', ['ui.bootstrap.position'])
           //private var to disable select right after matchSync is performed
           var enableSelect = true;
 
+          //private var to disable 'touchend' signal from closing the autocomplete results
+          var touchMove = false;
+
           //private var to keep track of whether or not we expose the getAsyncMatches function
           var exposeReload = attrs.exposeReload ? originalScope.$eval(attrs.exposeReload) : false;
 
@@ -393,16 +396,26 @@ angular.module('ghs.bootstrap.typeahead', ['ui.bootstrap.position'])
 
           // Keep reference to click handler to unbind it.
           var dismissClickHandler = function (evt) {
-            if (enableSelect && !elementOrDropdownMatch(evt)) {
+            if (enableSelect && !touchMove && !elementOrDropdownMatch(evt)) {
               hideMatches();
               scope.$digest();
             }
           };
+          var touchStartHandler = function(evt) {
+            touchMove = false;
+          };
+          var touchMoveHandler = function(evt) {
+            touchMove = true;
+          };
 
-          $document.bind('click touchstart', dismissClickHandler);
+          $document.bind('touchstart', touchStartHandler);
+          $document.bind('touchmove', touchMoveHandler);
+          $document.bind('click touchend', dismissClickHandler);
 
           originalScope.$on('$destroy', function () {
-            $document.unbind('click touchstart', dismissClickHandler);
+            $document.unbind('touchstart', touchStartHandler);
+            $document.unbind('touchmove', touchMoveHandler);
+            $document.unbind('click touchend', dismissClickHandler);
           });
 
           var $popup = $compile(popUpEl)(scope);
