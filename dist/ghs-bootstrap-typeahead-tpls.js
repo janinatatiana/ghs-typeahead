@@ -2,7 +2,7 @@
  * ghs-typeahead
  * http://angular-ui.github.io/bootstrap/
 
- * Version: 0.14.17 - 2016-07-07
+ * Version: 0.15.1 - 2016-07-12
  * License: MIT
  */
 angular.module("ghs.bootstrap", ["ghs.bootstrap.tpls", "ghs.bootstrap.typeahead"]);
@@ -66,6 +66,9 @@ angular.module('ghs.bootstrap.typeahead', ['ui.bootstrap.position'])
 
           //a callback executed when a match is selected
           var onSelectCallback = $parse(attrs.typeaheadOnSelect);
+
+          // a callback executed when the dropdown is closed
+          var onCloseCallback = $parse(attrs.typeaheadOnClose) || angular.noop;
 
           var inputFormatter = attrs.typeaheadInputFormatter ? $parse(attrs.typeaheadInputFormatter) : undefined;
 
@@ -145,6 +148,7 @@ angular.module('ghs.bootstrap.typeahead', ['ui.bootstrap.position'])
           }
 
           var hideMatches = function () {
+            onCloseCallback(originalScope);
             scope.activeIdx = -1;
             scope.popupState.visible = false;
             element.attr('aria-expanded', false);

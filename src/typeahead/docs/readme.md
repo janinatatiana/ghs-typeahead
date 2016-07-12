@@ -51,3 +51,7 @@ The ghs-typeahead directives provide several attributes:
 * `typeahead-wait-ms` <i class="glyphicon glyphicon-eye-open"></i>
    _(Defaults: 0)_ :
    Minimal wait time after last character typed before typeahead kicks-in
+
+* `typeahead-on-close()`
+   _(Defaults: null)_ :
+   A callback executed when the dropdown is closed

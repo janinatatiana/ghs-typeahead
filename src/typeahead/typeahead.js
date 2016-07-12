@@ -58,6 +58,9 @@ angular.module('ghs.bootstrap.typeahead', ['ui.bootstrap.position'])
           //a callback executed when a match is selected
           var onSelectCallback = $parse(attrs.typeaheadOnSelect);
 
+          // a callback executed when the dropdown is closed
+          var onCloseCallback = $parse(attrs.typeaheadOnClose) || angular.noop;
+
           var inputFormatter = attrs.typeaheadInputFormatter ? $parse(attrs.typeaheadInputFormatter) : undefined;
 
           var appendToBody = attrs.typeaheadAppendToBody ? originalScope.$eval(attrs.typeaheadAppendToBody) : false;
@@ -136,6 +139,7 @@ angular.module('ghs.bootstrap.typeahead', ['ui.bootstrap.position'])
           }
 
           var hideMatches = function () {
+            onCloseCallback(originalScope);
             scope.activeIdx = -1;
             scope.popupState.visible = false;
             element.attr('aria-expanded', false);
