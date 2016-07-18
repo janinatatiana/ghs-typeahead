@@ -109,6 +109,7 @@ angular.module('ghs.bootstrap.typeahead', ['ui.bootstrap.position'])
             if (enablePopup && !scope.popupState.visible) {
               scope.popupState.visible = true;
               getMatchesAsync(modelCtrl.$viewValue);
+              scope.$digest();
             }
           };
 

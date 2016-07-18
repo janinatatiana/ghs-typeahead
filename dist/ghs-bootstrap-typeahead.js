@@ -2,7 +2,7 @@
  * ghs-typeahead
  * http://angular-ui.github.io/bootstrap/
 
- * Version: 0.15.1 - 2016-07-12
+ * Version: 0.15.2 - 2016-07-18
  * License: MIT
  */
 angular.module("ghs.bootstrap", ["ghs.bootstrap.typeahead"]);
@@ -117,6 +117,7 @@ angular.module('ghs.bootstrap.typeahead', ['ui.bootstrap.position'])
             if (enablePopup && !scope.popupState.visible) {
               scope.popupState.visible = true;
               getMatchesAsync(modelCtrl.$viewValue);
+              scope.$digest();
             }
           };
 
